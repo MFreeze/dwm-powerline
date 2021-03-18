@@ -49,6 +49,15 @@ and (re)compiling the source code.
 
 Credits
 -------
-
 * The original `dwm` on [suckless.org](https://dwm.suckless.org)
 * The patch management is heavily inspired by `dwm-flexipatch` by [bakkeby](https://github.com/bakkeby/dwm-flexipatch)
+
+Applied Patches
+---------------
+
+The following patches have been applied:
+* [fibonacci layout](https://dwm.suckless.org/patches/fibonacci/)
+* [pertag](https://dwm.suckless.org/patches/pertag/)
+* [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/)
+* solarized colors
+* powerline-like status bar and tags
