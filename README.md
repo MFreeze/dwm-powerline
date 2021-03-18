@@ -46,3 +46,9 @@ Configuration
 -------------
 The configuration of dwm is done by creating a custom config.h
 and (re)compiling the source code.
+
+Credits
+-------
+
+* The original `dwm` on [suckless.org](https://dwm.suckless.org)
+* The patch management is heavily inspired by `dwm-flexipatch` by [bakkeby](https://github.com/bakkeby/dwm-flexipatch)
