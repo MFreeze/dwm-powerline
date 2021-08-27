@@ -1,6 +1,7 @@
 /* Bar functionality */
 #include "bar_indicators.c"
 #include "bar_tagicons.c"
+#include "bar_wintitle.c"
 
 #include "bar_powerline_status.c"
 #include "bar_powerline_tags.c"

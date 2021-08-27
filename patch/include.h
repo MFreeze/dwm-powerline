@@ -1,6 +1,7 @@
 /* Bar functionality */
 #include "bar_indicators.h"
 #include "bar_tagicons.h"
+#include "bar_wintitle.h"
 
 #include "bar_powerline_status.h"
 #include "bar_powerline_tags.h"
