@@ -3,16 +3,21 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
+static const unsigned int gappih         = 5;  /* horiz inner gap between windows */
+static const unsigned int gappiv         = 5;  /* vert inner gap between windows */
+static const unsigned int gappoh         = 5;  /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov         = 5;  /* vert outer gap between windows and screen edge */
+static const int smartgaps               = 0;   /* 1 means no outer gap when there is only one window */
 /* Indicators: see patch/bar_indicators.h for options */
 static int tagindicatortype              = INDICATOR_TOP_LEFT_SQUARE;
 static int tiledindicatortype            = INDICATOR_NONE;
 static int floatindicatortype            = INDICATOR_TOP_LEFT_SQUARE;
-static const char *fonts[]          = { "FontAwesome:size=9", "Liberation Mono:size=9", "monospace:size=9" };
-static const char dmenufont[]       = "Liberation Mono:size=9";
+static const char *fonts[]          = { "FontAwesome:size=10", "Liberation Mono:size=9", "monospace:size=9" };
+static const char dmenufont[]       = "Liberation Mono:size=10";
 
 static char normfgcolor[]                = "#bbbbbb";
 static char normbgcolor[]                = "#222222";
@@ -54,19 +59,36 @@ static char urgbgcolor[]                 = "#222222";
 static char urgbordercolor[]             = "#ff0000";
 static char urgfloatcolor[]              = "#db8fd9";
 
-static char *colors[][ColCount] = {
+//static char solarizedBase02[] = "#073642";
+//static char solarizedBase01[] = "#586e75";
+//static char solarizedBase00[] = "#657b83";
+static char solarizedBase03[] = "#002b36";
+static char solarizedBase0 [] = "#839496";
+static char solarizedBase1 [] = "#93a1a1";
+static char solarizedBase2 [] = "#eee8d5";
+static char solarizedBase3 [] = "#fdf6e3";
+static char solarizedYellow[] = "#b58900";
+static char solarizedOrange[] = "#cb4b16";
+static char solarizedRed   [] = "#dc322f";
+static char solarizedMagent[] = "#d33682";
+static char solarizedViolet[] = "#6c71c4";
+static char solarizedBlue  [] = "#268bd2";
+static char solarizedCyan  [] = "#2aa198";
+static char solarizedGreen [] = "#859900";
+
+const static char *colors[][ColCount] = {
 	/*                       fg                bg                border                float */
-	[SchemeNorm]         = { normfgcolor,      normbgcolor,      normbordercolor,      normfloatcolor },
-	[SchemeSel]          = { selfgcolor,       selbgcolor,       selbordercolor,       selfloatcolor },
-	[SchemeTitleNorm]    = { titlenormfgcolor, titlenormbgcolor, titlenormbordercolor, titlenormfloatcolor },
-	[SchemeTitleSel]     = { titleselfgcolor,  titleselbgcolor,  titleselbordercolor,  titleselfloatcolor },
+	[SchemeNorm]         = { solarizedBase2,   solarizedBase03,  solarizedBase03,      solarizedBlue },
+	[SchemeSel]          = { solarizedBase3,   solarizedBase0,   solarizedBase1,       solarizedBlue },
+	[SchemeTitleNorm]    = { solarizedBase2,   solarizedBase03,  titlenormbordercolor, titlenormfloatcolor },
+	[SchemeTitleSel]     = { solarizedBase2,   solarizedBase03,  titleselbordercolor,  titleselfloatcolor },
 	[SchemeTagsNorm]     = { tagsnormfgcolor,  tagsnormbgcolor,  tagsnormbordercolor,  tagsnormfloatcolor },
 	[SchemeTagsSel]      = { tagsselfgcolor,   tagsselbgcolor,   tagsselbordercolor,   tagsselfloatcolor },
 	[SchemeHid]          = { hidfgcolor,       hidbgcolor,       hidbordercolor,       hidfloatcolor },
 	[SchemeUrg]          = { urgfgcolor,       urgbgcolor,       urgbordercolor,       urgfloatcolor },
 };
 
-static char *statuscolors[][ColCount] = {
+const static char *statuscolors[][ColCount] = {
 	/*                       fg                bg                border                float */
 	[SchemeNorm]         = { normfgcolor,      normbgcolor,      normbordercolor,      normfloatcolor },
 	[SchemeSel]          = { selfgcolor,       selbgcolor,       selbordercolor,       selfloatcolor },
@@ -76,6 +98,15 @@ static char *statuscolors[][ColCount] = {
 	[SchemeTagsSel]      = { tagsselfgcolor,   tagsselbgcolor,   tagsselbordercolor,   tagsselfloatcolor },
 	[SchemeHid]          = { hidfgcolor,       hidbgcolor,       hidbordercolor,       hidfloatcolor },
 	[SchemeUrg]          = { urgfgcolor,       urgbgcolor,       urgbordercolor,       urgfloatcolor },
+	[SchemeViolet]       = { solarizedBase2,   solarizedViolet,  urgbordercolor,       urgfloatcolor },
+	[SchemeBlue]         = { solarizedBase2,   solarizedBlue,    urgbordercolor,       urgfloatcolor },
+	[SchemeYellow]       = { solarizedBase2,   solarizedYellow,  urgbordercolor,       urgfloatcolor },
+	[SchemeOrange]       = { solarizedBase2,   solarizedOrange,  urgbordercolor,       urgfloatcolor },
+	[SchemeRed]          = { solarizedBase2,   solarizedRed,     urgbordercolor,       urgfloatcolor },
+	[SchemeMagent]       = { solarizedBase2,   solarizedMagent,  urgbordercolor,       urgfloatcolor },
+	[SchemeCyan]         = { solarizedBase2,   solarizedCyan,    urgbordercolor,       urgfloatcolor },
+	[SchemeGreen]        = { solarizedBase2,   solarizedGreen,   urgbordercolor,       urgfloatcolor },
+	[SchemeDark]         = { solarizedBase2,   solarizedBase03,  urgbordercolor,       urgfloatcolor },
 };
 
 
@@ -147,8 +178,9 @@ static const Rule rules[] = {
 	RULE(.class = "firefox", .tags = 1 << 8)
 	RULE(.class = "Thunderbird", .tags = 1 << 9)
 	RULE(.class = "nvim-qt", .tags = 1 << 2)
-	RULE(.class = "Zathura", .tags = 1 << 3)
+	RULE(.class = "Zathura", .tags = 1 << 5)
 	RULE(.class = "libreoffice", .tags = 1 << 7)
+    RULE(.class = "passpopup", .isfloating = 1)
 };
 
 /* Bar rules allow you to configure what is shown where on the bar, as well as
@@ -165,21 +197,21 @@ static const Rule rules[] = {
  */
 static const BarRule barrules[] = {
 	/* monitor  bar    alignment         widthfunc                drawfunc                clickfunc                name */
-	{  0,       0,     BAR_ALIGN_LEFT,   width_pwrl_tags,         draw_pwrl_tags,         click_pwrl_tags,         "powerline_tags" },
-	{  0,       0,     BAR_ALIGN_RIGHT,  width_pwrl_status,       draw_pwrl_status,       click_pwrl_status,       "powerline_status" },
+	{  -1,       0,     BAR_ALIGN_LEFT,   width_pwrl_tags,         draw_pwrl_tags,         click_pwrl_tags,         "powerline_tags" },
+	{  -1,       0,     BAR_ALIGN_RIGHT,  width_pwrl_status,       draw_pwrl_status,       click_pwrl_status,       "powerline_status" },
+	{ -1,       0,     BAR_ALIGN_NONE,   width_wintitle,          draw_wintitle,          click_wintitle,          "wintitle" },
 };
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
-//#include "fibonacci.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
+	{ "(@)",      spiral },
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-	{ "(@)",      spiral },
 	{ "[\\]",      dwindle },
 };
 
@@ -239,11 +271,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,                     view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,                       killclient,     {0} },
 	{ MODKEY|ShiftMask,             XK_q,                       quit,           {0} },
-	{ MODKEY,                       XK_t,                       setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,                       setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,                       setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_r,                       setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_u,                       setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_t,                       setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_f,                       setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_m,                       setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,                       XK_r,                       setlayout,      {.v = &layouts[4]} },
+	{ MODKEY,                       XK_u,                       setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_space,                   setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,                   togglefloating, {0} },
 	{ MODKEY,                       XK_comma,                   focusmon,       {.i = -1 } },
@@ -271,6 +303,22 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_v,                       spawn,          { .v = qt_nvim } },
 	{ MODKEY|ShiftMask,             XK_r,                       spawn,          { .v = roottermcmd } },
 	{ MODKEY|ShiftMask,             XK_b,                       spawn,          { .v = bigtermcmd } },
+	{ MODKEY|Mod1Mask,              XK_u,          incrgaps,               {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,          incrgaps,               {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_i,          incrigaps,              {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,          incrigaps,              {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_o,          incrogaps,              {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,          incrogaps,              {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_6,          incrihgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,          incrihgaps,             {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_7,          incrivgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,          incrivgaps,             {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_8,          incrohgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,          incrohgaps,             {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_9,          incrovgaps,             {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,          incrovgaps,             {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_t,          togglegaps,             {0} },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,          defaultgaps,            {0} },
 };
 
 
