@@ -20,11 +20,7 @@ setgaps(int oh, int ov, int ih, int iv)
 static void
 togglegaps(const Arg *arg)
 {
-    __enable_log_file;
-    PRINTVAR(selmon->pertag->enablegaps[selmon->pertag->curtag]);
 	selmon->pertag->enablegaps[selmon->pertag->curtag] = !selmon->pertag->enablegaps[selmon->pertag->curtag];
-    PRINTVAR(selmon->pertag->enablegaps[selmon->pertag->curtag]);
-    __disable_log_file;
 	arrange(NULL);
 }
 
@@ -43,11 +39,6 @@ incrgaps(const Arg *arg)
 		selmon->gappih + arg->i,
 		selmon->gappiv + arg->i
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -59,11 +50,6 @@ incrigaps(const Arg *arg)
 		selmon->gappih + arg->i,
 		selmon->gappiv + arg->i
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -75,11 +61,6 @@ incrogaps(const Arg *arg)
 		selmon->gappih,
 		selmon->gappiv
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -91,11 +72,6 @@ incrohgaps(const Arg *arg)
 		selmon->gappih,
 		selmon->gappiv
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -107,11 +83,6 @@ incrovgaps(const Arg *arg)
 		selmon->gappih,
 		selmon->gappiv
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -123,11 +94,6 @@ incrihgaps(const Arg *arg)
 		selmon->gappih + arg->i,
 		selmon->gappiv
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -139,11 +105,6 @@ incrivgaps(const Arg *arg)
 		selmon->gappih,
 		selmon->gappiv + arg->i
 	);
-
-    PRINTVAR(selmon->gappoh);
-    PRINTVAR(selmon->gappov);
-    PRINTVAR(selmon->gappih);
-    PRINTVAR(selmon->gappov);
 }
 
 static void
@@ -152,8 +113,6 @@ getgaps(Monitor *m, int *oh, int *ov, int *ih, int *iv, unsigned int *nc)
 	unsigned int n, oe, ie;
 	oe = ie = selmon->pertag->enablegaps[selmon->pertag->curtag];
 	Client *c;
-
-    DEB_PRINT("Enter get gaps command");
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
 	if (smartgaps && n == 1) {
